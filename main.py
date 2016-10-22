@@ -10,11 +10,7 @@ TODO: human can play a bot
 
 BOTS = {}
 BOTS['bot-basic'] = rpsBots.ProbabilityRPSBot({'rock': .33, 'paper': .33, 'scissor': (1-.33-.33)})
-BOTS['bot-random'] = rpsBots.ProbabilityRPSBot({'rock': .5, 'paper': .2, 'scissor': (1-.5-.2)})
-# probs = {'rock': 0.50, 'paper': 0.50, 'scissor': 0.0}
-# bot2 = rpsBots.OrderRPSBot(['rock', 'paper', 'scissor'])
-#
-# game = simulation.Simulation(bot1, bot2, 10000)
+BOTS['bot-random'] = rpsBots.RandomProbabilityRPSBot()
 
 # REPL and main entry point
 def repl(command=None):
@@ -42,8 +38,8 @@ def repl(command=None):
             print '\n'.join(a + '\t\t\t' + b for a, b in [
                 ('bot-basic', 'Bot who plays the uniform frequencies'),
                 ('bot-random', 'Bot who plays with random frequencies'),
-                ('bot-user', 'Bot who is defined by the user'),
-                ('bot-oracle', 'Bot who knows the opponent\'s strategy'),
+                # ('bot-user', 'Bot who is defined by the user'),
+                # ('bot-oracle', 'Bot who knows the opponent\'s strategy'),
                 ('simulate [bot1] [bot2] [number of rounds]', 'Simulate two bots playing'),
                 ('single [bot1] [bot2]', 'Simulate 1 round between two bots'),
                 ('user [bot1]', 'User plays against a bot'),
@@ -54,7 +50,7 @@ def repl(command=None):
         elif cmd == 'single':
             # call single bot play
             if len(line.split()) != 2:
-                print 'Need to provide two bots to play'
+                print 'Need the following arguments:'
                 print '\tUsage: single [bot1] [bot2]'
                 print ''
             else:
@@ -66,7 +62,7 @@ def repl(command=None):
 
         elif cmd == 'simulate':
             if len(line.split()) != 3:
-                print 'Need to provide two bots to play:'
+                print 'Need the following arguments:'
                 print '\tUsage: single [bot1] [bot2] [number of rounds]'
                 print ''
             else:
@@ -77,16 +73,13 @@ def repl(command=None):
                 game.simulate(int(rounds))
                 print(game)
 
-        # elif cmd == 'both':
-        #     line = wordsegUtil.cleanLine(line)
-        #     smoothCost = wordsegUtil.smoothUnigramAndBigram(unigramCost, bigramCost, 0.2)
-        #     parts = [wordsegUtil.removeAll(w, 'aeiou') for w in wordsegUtil.words(line)]
-        #     print '  Query (both):', ' '.join(parts)
-        #     print ''
-        #     print '  ' + ' '.join(
-        #         submission.segmentAndInsert(part, smoothCost, possibleFills)
-        #         for part in parts
-        #     )
+        elif cmd == 'user':
+            if len(line.split()) != 1:
+                print 'Need the following arguments:'
+                print '\tUsage: single [bot1] [bot2] [number of rounds]'
+                print ''
+            else:
+                print '...still under development'
         #
         # elif cmd == 'fills':
         #     line = wordsegUtil.cleanLine(line)
@@ -107,5 +100,5 @@ def repl(command=None):
         print ''
 
 if __name__ == '__main__':
-
+    print '\n\tWelcome to Rock-Paper-Scissor!\n'
     repl()

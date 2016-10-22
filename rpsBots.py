@@ -1,3 +1,4 @@
+import random
 import numpy
 
 class OrderRPSBot():
@@ -25,6 +26,28 @@ class ProbabilityRPSBot():
     def __init__(self, probs):
         ''' initialize RPS Bot that is based only on probabilities '''
         self.probs = probs
+
+    def playTurn(self):
+        choice = numpy.random.choice(numpy.arange(1, 4), p = self.probs.values())
+        return self.probs.keys()[choice - 1]
+
+    def playTie(self):
+        return self.playTurn()
+
+    def __repr__(self):
+        ''' overloading of print method '''
+        string = 'ProbabilityRPSBot plays with the following probabilities:\n'
+        for i in self.probs:
+            string += '\t%s: %.2f\n' % (i, self.probs[i])
+        return string
+
+class RandomProbabilityRPSBot():
+    def __init__(self):
+        ''' initialize RPS Bot that is based only on probabilities '''
+        rock = random.uniform(0, 1)
+        paper = random.uniform(0, rock)
+        scissor = 1 - rock - paper
+        self.probs = {'rock': rock, 'paper': paper, 'scissor': scissor}
 
     def playTurn(self):
         choice = numpy.random.choice(numpy.arange(1, 4), p = self.probs.values())
