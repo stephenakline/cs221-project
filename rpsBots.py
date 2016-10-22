@@ -45,7 +45,7 @@ class RandomProbabilityRPSBot():
     def __init__(self):
         ''' initialize RPS Bot that is based only on probabilities '''
         rock = random.uniform(0, 1)
-        paper = random.uniform(0, rock)
+        paper = random.uniform(0, 1 - rock)
         scissor = 1 - rock - paper
         self.probs = {'rock': rock, 'paper': paper, 'scissor': scissor}
 

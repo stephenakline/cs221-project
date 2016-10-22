@@ -10,7 +10,6 @@ TODO: human can play a bot
 
 BOTS = {}
 BOTS['bot-basic'] = rpsBots.ProbabilityRPSBot({'rock': .33, 'paper': .33, 'scissor': (1-.33-.33)})
-BOTS['bot-random'] = rpsBots.RandomProbabilityRPSBot()
 
 # REPL and main entry point
 def repl(command=None):
@@ -48,15 +47,14 @@ def repl(command=None):
             print 'Enter empty line to quit'
 
         elif cmd == 'single':
-            # call single bot play
             if len(line.split()) != 2:
                 print 'Need the following arguments:'
                 print '\tUsage: single [bot1] [bot2]'
                 print ''
             else:
                 name1, name2 = line.split()
-                bot1 = BOTS[name1]
-                bot2 = BOTS[name2]
+                bot1 = BOTS[name1] if name1 in BOTS else rpsBots.RandomProbabilityRPSBot()
+                bot2 = BOTS[name2] if name2 in BOTS else rpsBots.RandomProbabilityRPSBot()
                 game = simulation.Simulation(bot1, bot2)
                 game.singleGame()
 
@@ -67,8 +65,8 @@ def repl(command=None):
                 print ''
             else:
                 name1, name2, rounds = line.split()
-                bot1 = BOTS[name1]
-                bot2 = BOTS[name2]
+                bot1 = BOTS[name1] if name1 in BOTS else rpsBots.RandomProbabilityRPSBot()
+                bot2 = BOTS[name2] if name2 in BOTS else rpsBots.RandomProbabilityRPSBot()
                 game = simulation.Simulation(bot1, bot2)
                 game.simulate(int(rounds))
                 print(game)
@@ -79,7 +77,7 @@ def repl(command=None):
                 print '\tUsage: single [bot1] [bot2] [number of rounds]'
                 print ''
             else:
-                print '...still under development'
+                print '...still under development...'
         #
         # elif cmd == 'fills':
         #     line = wordsegUtil.cleanLine(line)
