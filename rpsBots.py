@@ -1,6 +1,13 @@
 import random
 import numpy
 
+# IDEA: change this to 1 class where a bot has
+#	- dictionary of frequencies
+#	- strategy [an order of playing]
+#	- a tie strategy
+#	and a probability for each of the above
+#	(to turn any bot into a strictly probability or strategy bot) 
+
 class OrderRPSBot():
     def __init__(self, order):
         ''' initialize RPS Bot that is based only on order '''

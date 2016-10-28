@@ -39,7 +39,7 @@ def repl(command=None):
                 ('bot-random', 'Bot who plays with random frequencies'),
                 # ('bot-user', 'Bot who is defined by the user'),
                 # ('bot-oracle', 'Bot who knows the opponent\'s strategy'),
-                ('simulate [bot1] [bot2] [number of rounds]', 'Simulate two bots playing'),
+                ('simulate [bot1] [bot2] [# of rounds]', 'Simulate two bots playing'),
                 ('single [bot1] [bot2]', 'Simulate 1 round between two bots'),
                 ('user [bot1]', 'User plays against a bot'),
             ])
@@ -61,7 +61,7 @@ def repl(command=None):
         elif cmd == 'simulate':
             if len(line.split()) != 3:
                 print 'Need the following arguments:'
-                print '\tUsage: single [bot1] [bot2] [number of rounds]'
+                print '\tUsage: simulate [bot1] [bot2] [number of rounds]'
                 print ''
             else:
                 name1, name2, rounds = line.split()
@@ -78,19 +78,6 @@ def repl(command=None):
                 print ''
             else:
                 print '...still under development...'
-        #
-        # elif cmd == 'fills':
-        #     line = wordsegUtil.cleanLine(line)
-        #     print '\n'.join(possibleFills(line))
-        #
-        # elif cmd == 'ug':
-        #     line = wordsegUtil.cleanLine(line)
-        #     print unigramCost(line)
-        #
-        # elif cmd == 'bg':
-        #     grams = tuple(wordsegUtil.words(line))
-        #     prefix, ending = grams[-2], grams[-1]
-        #     print bigramCost(prefix, ending)
 
         else:
             print 'Unrecognized command:', cmd

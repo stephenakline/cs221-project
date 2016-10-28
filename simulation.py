@@ -13,10 +13,10 @@ class Simulation():
     def reset(self):
         self.score = {'bot1': 0, 'bot2': 0, 'tie': 0}
 
-    def simulate(self, rounds=None):
+    def simulate(self, rounds=1000):
         self.reset() # reset the scores for new game
 
-        rounds = 1000 if rounds == None else rounds
+        # rounds = 1000 if rounds == None else rounds
         sys.stdout.write('\tStarting the %s-round simulation....' % rounds)
         sys.stdout.flush()
 
