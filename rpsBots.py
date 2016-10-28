@@ -9,7 +9,7 @@ import numpy
 #	(to turn any bot into a strictly probability or strategy bot)
 
 class Bot():
-    def __init__(self, probs, probWeight, strategy, strategyWeight):
+    def __init__(self, probs, strategy, probWeight, strategyWeight):
         ''' initialize RPS Bot that is based only on order '''
         self.probs       = probs
         self.strategy    = strategy
@@ -47,6 +47,8 @@ class Bot():
             for i in self.strategy:
                 string += i + ' '
         return string
+
+class Oracle():
 
 # class OrderRPSBot():
 #     def __init__(self, order):

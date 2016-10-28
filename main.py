@@ -9,7 +9,15 @@ TODO: human can play a bot
 '''
 
 BOTS = {}
-BOTS['bot-basic'] = rpsBots.ProbabilityRPSBot({'rock': .33, 'paper': .33, 'scissor': (1-.33-.33)})
+BOTS['bot-basic'] = rpsBots.Bot({'rock': .33, 'paper': .33, 'scissor': (1-.33-.33)},
+                                ['rock', 'paper'],
+                                probWeight = 1.0, strategyWeight = 0.0)
+BOTS['bot-strategy'] = rpsBots.Bot({'rock': .33, 'paper': .33, 'scissor': (1-.33-.33)},
+                                ['rock', 'paper', 'scissor'],
+                                probWeight = 1.0, strategyWeight = 0.0)
+BOTS['bot-mix'] = rpsBots.Bot({'rock': .10, 'paper': .20, 'scissor': .7},
+                                ['rock', 'paper', 'paper', 'rock'],
+                                probWeight = 0.1, strategyWeight = 0.9)
 
 # REPL and main entry point
 def repl(command=None):
@@ -36,7 +44,8 @@ def repl(command=None):
             print 'Commands:'
             print '\n'.join(a + '\t\t\t' + b for a, b in [
                 ('bot-basic', 'Bot who plays the uniform frequencies'),
-                ('bot-random', 'Bot who plays with random frequencies'),
+                ('bot-strategy', 'Bot who plays the simple strategy'),
+                # ('bot-random', 'Bot who plays with random frequencies'),
                 # ('bot-user', 'Bot who is defined by the user'),
                 # ('bot-oracle', 'Bot who knows the opponent\'s strategy'),
                 ('simulate [bot1] [bot2] [# of rounds]', 'Simulate two bots playing'),
