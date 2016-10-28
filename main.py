@@ -85,5 +85,5 @@ def repl(command=None):
         print ''
 
 if __name__ == '__main__':
-    print '\n\tWelcome to Rock-Paper-Scissor!\n'
+    print '\n\tWelcome to HELL - Prepare to lose a game of Rock, Paper, Scissor to R2P5!\n'
     repl()
