@@ -9,15 +9,13 @@ TODO: human can play a bot
 '''
 
 BOTS = {}
-BOTS['bot-basic'] = rpsBots.Bot({'rock': .33, 'paper': .33, 'scissor': (1-.33-.33)},
-                                ['rock', 'paper'],
-                                probWeight = 1.0, strategyWeight = 0.0)
+BOTS['bot-baseline'] = rpsBots.Baseline()
 BOTS['bot-strategy'] = rpsBots.Bot({'rock': .33, 'paper': .33, 'scissor': (1-.33-.33)},
                                 ['rock', 'paper', 'scissor'],
                                 probWeight = 1.0, strategyWeight = 0.0)
-BOTS['bot-mix'] = rpsBots.Bot({'rock': .10, 'paper': .20, 'scissor': .7},
+BOTS['bot-mix'] = rpsBots.Bot({'rock': 0.3, 'paper': 0.3, 'scissor': 0.4},
                                 ['rock', 'paper', 'paper', 'rock'],
-                                probWeight = 0.1, strategyWeight = 0.9)
+                                probWeight = 1, strategyWeight = 0)
 
 # REPL and main entry point
 def repl(command=None):
@@ -43,7 +41,7 @@ def repl(command=None):
             print ''
             print 'Commands:'
             print '\n'.join(a + '\t\t\t' + b for a, b in [
-                ('bot-basic', 'Bot who plays the uniform frequencies'),
+                ('bot-baseline', 'Bot who plays the uniform frequencies'),
                 ('bot-strategy', 'Bot who plays the simple strategy'),
                 # ('bot-random', 'Bot who plays with random frequencies'),
                 # ('bot-user', 'Bot who is defined by the user'),
@@ -80,13 +78,12 @@ def repl(command=None):
                 game.simulate(int(rounds))
                 print(game)
 
-        elif cmd == 'user':
-            if len(line.split()) != 1:
-                print 'Need the following arguments:'
-                print '\tUsage: single [bot1] [bot2] [number of rounds]'
-                print ''
-            else:
-                print '...still under development...'
+        elif cmd == 'oracle':
+                bot1 = BOTS['bot-mix']
+                bot2 = rpsBots.Oracle(bot1)
+                game = simulation.Simulation(bot1, bot2)
+                game.simulate(10000)
+                print(game)
 
         else:
             print 'Unrecognized command:', cmd
