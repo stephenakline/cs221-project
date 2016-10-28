@@ -5,9 +5,9 @@ import util
 class Bot():
     def __init__(self, probs, strategy, probWeight, strategyWeight):
         ''' initialize RPS Bot that is based only on order '''
-        self.probs       = probs
-        self.strategy    = strategy
-        self.probsWeight    = probWeight
+        self.probs = probs
+        self.strategy = strategy
+        self.probsWeight = probWeight
         self.strategyWeight = strategyWeight
         self.index = 0
 
@@ -46,6 +46,10 @@ class Baseline():
     def __init__(self):
         ''' initialize Baseline Bot '''
         self.probs = {'rock': .33, 'paper': .33, 'scissor': (1-.33-.33)}
+        self.strategy = None
+        self.probsWeight = 1
+        self.strategyWeight = 0
+        self.index = 0
 
     def playTurn(self):
         choice = numpy.random.choice(numpy.arange(1, 4), p = self.probs.values())
@@ -66,9 +70,10 @@ class Oracle():
     def __init__(self, opponent):
         ''' initialize Oracle Bot '''
         self.opponent = opponent
-        self.probsDecision = ''
-        self.probsWeight = 0
-        self.strategyWeight = 0
+        self.probsDecision = None
+        self.probsWeight = None
+        self.strategyWeight = None
+        self.index = 0
         self.deviseStrategy()
 
     def deviseStrategy(self):
@@ -76,6 +81,8 @@ class Oracle():
             opponentChoice = max(self.opponent.probs, key=self.opponent.probs.get)
             self.probsDecision = util.ORACLE_STRATEGY[opponentChoice]
             self.probsWeight = 1; self.strategyWeight = 0
+        elif self.opponent.strategyWeight == 1:
+            self.probsWeight = 0; self.strategyWeight = 1
 
     def playTurn(self):
         playType = numpy.random.choice(numpy.arange(1, 3), \
@@ -86,10 +93,11 @@ class Oracle():
     def playTie(self):
         return self.playTurn()
 
-    # def playStrategy(self):
-    #     choice = self.strategy[self.index]
-    #     self.index = self.index + 1 if self.index + 1 < len(self.strategy) else 0
-    #     return choice
+    def playStrategy(self):
+        opponentChoice = self.opponent.strategy[self.index]
+        response = util.ORACLE_STRATEGY[opponentChoice]
+        self.index = self.index + 1 if self.index + 1 < len(self.opponent.strategy) else 0
+        return response
 
     def playProbabilities(self):
         choice = numpy.random.choice(numpy.arange(1, 4), p = self.probs.values())

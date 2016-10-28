@@ -11,8 +11,8 @@ TODO: human can play a bot
 BOTS = {}
 BOTS['bot-baseline'] = rpsBots.Baseline()
 BOTS['bot-strategy'] = rpsBots.Bot({'rock': .33, 'paper': .33, 'scissor': (1-.33-.33)},
-                                ['rock', 'paper', 'scissor'],
-                                probWeight = 1.0, strategyWeight = 0.0)
+                                ['rock', 'paper', 'scissor', 'paper'],
+                                probWeight = 0.0, strategyWeight = 1.0)
 BOTS['bot-mix'] = rpsBots.Bot({'rock': 0.3, 'paper': 0.3, 'scissor': 0.4},
                                 ['rock', 'paper', 'paper', 'rock'],
                                 probWeight = 1, strategyWeight = 0)
@@ -41,14 +41,14 @@ def repl(command=None):
             print ''
             print 'Commands:'
             print '\n'.join(a + '\t\t\t' + b for a, b in [
-                ('bot-baseline', 'Bot who plays the uniform frequencies'),
-                ('bot-strategy', 'Bot who plays the simple strategy'),
+                ('bot-baseline', 'Bot who only plays the uniform frequencies'),
+                ('bot-strategy', 'Bot who only plays the simple strategy'),
                 # ('bot-random', 'Bot who plays with random frequencies'),
                 # ('bot-user', 'Bot who is defined by the user'),
                 # ('bot-oracle', 'Bot who knows the opponent\'s strategy'),
-                ('simulate [bot1] [bot2] [# of rounds]', 'Simulate two bots playing'),
+                ('simulate [bot1] [bot2] [# rounds]', 'Simulate two bots playing'),
                 ('single [bot1] [bot2]', 'Simulate 1 round between two bots'),
-                ('user [bot1]', 'User plays against a bot'),
+                ('oracle [bot1] [# rounds]', 'Oracle plays against the given bot'),
             ])
             print ''
             print 'Enter empty line to quit'
@@ -60,29 +60,35 @@ def repl(command=None):
                 print ''
             else:
                 name1, name2 = line.split()
-                bot1 = BOTS[name1] if name1 in BOTS else rpsBots.RandomProbabilityRPSBot()
-                bot2 = BOTS[name2] if name2 in BOTS else rpsBots.RandomProbabilityRPSBot()
+                bot1 = BOTS[name1]
+                bot2 = BOTS[name2]
                 game = simulation.Simulation(bot1, bot2)
                 game.singleGame()
 
         elif cmd == 'simulate':
             if len(line.split()) != 3:
                 print 'Need the following arguments:'
-                print '\tUsage: simulate [bot1] [bot2] [number of rounds]'
+                print '\tUsage: simulate [bot1] [bot2] [# rounds]'
                 print ''
             else:
                 name1, name2, rounds = line.split()
-                bot1 = BOTS[name1] if name1 in BOTS else rpsBots.RandomProbabilityRPSBot()
-                bot2 = BOTS[name2] if name2 in BOTS else rpsBots.RandomProbabilityRPSBot()
+                bot1 = BOTS[name1]
+                bot2 = BOTS[name2]
                 game = simulation.Simulation(bot1, bot2)
                 game.simulate(int(rounds))
                 print(game)
 
         elif cmd == 'oracle':
-                bot1 = BOTS['bot-mix']
+            if len(line.split()) != 2:
+                print 'Need the following arguments:'
+                print '\tUsage: oracle [bot1] [# rounds]'
+                print ''
+            else:
+                name1, rounds = line.split()
+                bot1 = BOTS[name1]
                 bot2 = rpsBots.Oracle(bot1)
                 game = simulation.Simulation(bot1, bot2)
-                game.simulate(10000)
+                game.simulate(int(rounds))
                 print(game)
 
         else:
