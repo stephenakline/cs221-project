@@ -35,19 +35,19 @@ class Simulation():
         sys.stdout.flush()
 
         cleanOutcome = {}
-        cleanOutcome['bot1'] = 'Player 1 Wins!'
-        cleanOutcome['bot2'] = 'Player 2 Wins!'
+        cleanOutcome['bot1'] = '%s Wins!' % self.bot1.name
+        cleanOutcome['bot2'] = '%s Wins!' % self.bot2.name
         cleanOutcome['tie'] = 'It\'s a tie!'
 
         play1 = self.bot1.playTurn()
         play2 = self.bot2.playTurn()
         outcome = util.CHECK_WINNER[(play1, play2)]
-        print '\tPlayer 1 played: %s \t\tPlayer 2 played: %s' % (play1, play2)
+        print '\t%s played: %s \t\t%s played: %s' % (self.bot1.name, play1, self.bot2.name, play2)
         print '\t\t\tOutcome: %s' % cleanOutcome[outcome]
 
     def __repr__(self):
         ''' overloading of print method for Simulation class '''
         string = '\tAnd the winner is...\n'
-        string += '\t\tBot1: %s\n' % self.score['bot1']
-        string += '\t\tBot2: %s\n' % self.score['bot2']
+        string += '\t\t%s: \t%s\n' % (self.bot1.name, self.score['bot1'])
+        string += '\t\t%s: \t%s\n' % (self.bot2.name, self.score['bot2'])
         return string

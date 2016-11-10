@@ -10,12 +10,13 @@ TODO: human can play a bot
 
 BOTS = {}
 BOTS['bot-baseline'] = rpsBots.Baseline()
-BOTS['bot-strategy'] = rpsBots.Bot({'rock': .33, 'paper': .33, 'scissor': (1-.33-.33)},
-                                ['rock', 'paper', 'scissor', 'paper'],
-                                probWeight = 0.0, strategyWeight = 1.0)
-BOTS['bot-mix'] = rpsBots.Bot({'rock': 0.3, 'paper': 0.3, 'scissor': 0.4},
-                                ['rock', 'paper', 'paper', 'rock'],
-                                probWeight = 1, strategyWeight = 0)
+
+def addPlayers():
+    detailFile = open('opponents/details.txt', 'r')
+    lenghts = detailFile.readline().strip().split()
+    first, last = detailFile.readline().strip().split()
+    for i in range(int(first), int(last) + 1):
+        BOTS['person-%s' % i] = rpsBots.Bot('person-%s' % i)
 
 # REPL and main entry point
 def repl(command=None):
@@ -42,13 +43,10 @@ def repl(command=None):
             print 'Commands:'
             print '\n'.join(a + '\t\t\t' + b for a, b in [
                 ('bot-baseline', 'Bot who only plays the uniform frequencies'),
-                ('bot-strategy', 'Bot who only plays the simple strategy'),
-                # ('bot-random', 'Bot who plays with random frequencies'),
-                # ('bot-user', 'Bot who is defined by the user'),
-                # ('bot-oracle', 'Bot who knows the opponent\'s strategy'),
-                ('simulate [bot1] [bot2] [# rounds]', 'Simulate two bots playing'),
+                ('peroson-[#]', 'Play Person-[#]. Can choose from [X] to [Y]'),
+                ('sim [bot1] [bot2] [rounds]', 'Simulate two bots playing'),
                 ('single [bot1] [bot2]', 'Simulate 1 round between two bots'),
-                ('oracle [bot1] [# rounds]', 'Oracle plays against the given bot'),
+                ('oracle [bot1] [rounds]', 'Oracle plays against the given bot'),
             ])
             print ''
             print 'Enter empty line to quit'
@@ -65,7 +63,7 @@ def repl(command=None):
                 game = simulation.Simulation(bot1, bot2)
                 game.singleGame()
 
-        elif cmd == 'simulate':
+        elif cmd == 'sim':
             if len(line.split()) != 3:
                 print 'Need the following arguments:'
                 print '\tUsage: simulate [bot1] [bot2] [# rounds]'
@@ -98,4 +96,5 @@ def repl(command=None):
 
 if __name__ == '__main__':
     print '\n\tWelcome to HELL - Prepare to lose a game of Rock, Paper, Scissor to R2P5!\n'
+    addPlayers()
     repl()
