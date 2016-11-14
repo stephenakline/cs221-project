@@ -2,6 +2,8 @@ import random
 import copy
 import numpy
 import util
+import operator
+import sys
 
 class Bot():
     def __init__(self, name):
@@ -102,16 +104,92 @@ class Oracle():
             string += '\t%s: %.2f\n' % (i, self.probs[i])
         return string
 
+class Human():
+    def __init__(self):
+        self.name = 'Human'
+
+    def playTurn(self):
+        sys.stdout.write('\n>> Enter your next play: ')
+        line = sys.stdin.readline().strip()
+        if line == 'r' or line == 'rock':
+            return 'rock'
+        if line == 'p' or line == 'paper':
+            return 'paper'
+        if line == 's' or line == 'scissor': 
+            return 'scissor'
+
+    def playTie(self):
+        return self.playTurn()
+
 class Master():
     def __init__(self):
         ''' initialize Master Bot '''
         self.history = []
+        self.name = 'Master R2P5'
+        self.memoryLength = 100
+        self.totalNumRounds = 1000
+        self.state = ([],0,{'rock':0, 'paper':0, 'scissor': 0})
+        self.patternLength = 4
+
+    def isEnd(self, state):
+        return state[1] == self.totalNumRounds
+
+    def incorporatePlay(self, play):
+        prevPlays = self.state[0]
+        countPlays = self.state[1]
+        dictPlays = self.state[2]
+        prevPlays += [play]
+        if len(prevPlays) > self.memoryLength:
+            prevPlays.pop(0)
+        countPlays += 1
+        dictPlays[play] += 1
+        self.state = (prevPlays, countPlays, dictPlays)
 
     def playTurn(self):
-        raise Exception("Not implemented yet")
+        def play(p):
+            state = self.state
+            if p == 0:
+                probs = state[2]
+
+                if sum(probs.values()) != 0:
+                    maxPlayed, _ = sorted(probs.items(), key=operator.itemgetter(1), reverse = True)[0]
+                    # print 'most played:', maxPlayed
+                    resp1 = util.ORACLE_STRATEGY[maxPlayed]
+                    # print 'will play:', resp1
+                    return resp1
+                else:
+                    choice = numpy.random.choice([0,1,2])
+                    resp2 = probs.keys()[choice]
+                    # print 'will randomly play:', resp2
+                    return resp2
+            elif len(state[0]) < p:
+                return play(p-1)
+            else:
+                # print 'p == ', p
+                n = len(state[0])
+                count = {'rock':0, 'paper':0, 'scissor': 0}
+                curr = state[0][-p:]
+                # print 'analyzing current pattern of size %i: %s' %(p, curr)
+                for k in range(n-p-1):
+                    if state[0][k : (k + p)] == curr:
+                        count[state[0][k+p]] += 1
+                # print 'count', count
+                if sum(count.values()) != 0:
+                    nextPlay, _ = sorted(count.items(), key=operator.itemgetter(1), reverse = True)[0]
+                    resp = util.ORACLE_STRATEGY[nextPlay]
+                    # print 'pattern of size %i: %s recognized, will thus play %s to beat expected play of %s' % (p, curr, resp, nextPlay)
+                    return resp
+                else:
+                    # print 'pattern not found'
+                    return play(p-1)
+
+        # print '\nMaster is thinking'
+        p_init = self.patternLength
+        return play(p_init)
+
 
     def playTie(self):
-        raise Exception("Not implemented yet")
+        return self.playTurn()
 
     def __repr__(self):
         ''' overloading of print method '''
