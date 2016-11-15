@@ -115,7 +115,7 @@ class Human():
             return 'rock'
         if line == 'p' or line == 'paper':
             return 'paper'
-        if line == 's' or line == 'scissor': 
+        if line == 's' or line == 'scissor':
             return 'scissor'
 
     def playTie(self):
@@ -126,7 +126,7 @@ class Master():
         ''' initialize Master Bot '''
         self.history = []
         self.name = 'Master R2P5'
-        self.memoryLength = 100
+        self.memoryLength = 10
         self.totalNumRounds = 1000
         self.state = ([],0,{'rock':0, 'paper':0, 'scissor': 0})
         self.patternLength = 4
