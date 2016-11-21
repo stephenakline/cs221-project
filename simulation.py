@@ -116,7 +116,7 @@ class SimulationAgainstMaster():
             print '   '
             print ''
 
-        elif play1 == 'rock' and play2 == 'scissor':    
+        elif play1 == 'rock' and play2 == 'scissor':
             print '      Human               Master'
             print '---------------      ---------------'
             print ''
@@ -131,13 +131,13 @@ class SimulationAgainstMaster():
             print '      Human               Master'
             print '---------------      ---------------'
             print ''
-            print '    _ _ _                 _ _ _      '  
-            print '  /       \             /       \     '    
+            print '    _ _ _                 _ _ _      '
+            print '  /       \             /       \     '
             print ' |         |      vs   |         |    '
-            print ' |         |           |         |   '  
-            print ' |         |           |         |    '    
-            print '  \ _ _ _ /             \ _ _ _ /    '   
-            print '    Rock                  Rock'   
+            print ' |         |           |         |   '
+            print ' |         |           |         |    '
+            print '  \ _ _ _ /             \ _ _ _ /    '
+            print '    Rock                  Rock'
         elif play1 == 'scissor' and play2 == 'paper':
             print '     Human                Master'
             print '---------------      ---------------'
@@ -171,12 +171,12 @@ class SimulationAgainstMaster():
             print '    |  |  |             |         |  '
             print '     -- --               \ _ _ _ /       '
             print '    Scissor               Rock   '
-        
+
     def simulate(self, rounds=1000):
         self.reset() # reset the scores for new game
 
         # rounds = 1000 if rounds == None else rounds
-        sys.stdout.write('\tStarting the %s-round simulation....\n' % rounds)
+        sys.stdout.write('\tStarting the %s-round simulation....' % rounds)
 
         sys.stdout.flush()
 
@@ -195,17 +195,20 @@ class SimulationAgainstMaster():
                 play_2 = self.bot2.playTie()
                 self.bot2.incorporatePlay(play_1)
                 outcome = util.CHECK_WINNER[(play_1, play_2)]
-            
+
+            if self.bot1.name == 'BotV2':
+                self.bot1.incorporatePlay(play_1, outcome)
+
             self.results.append(outcome)
             self.score[outcome] += 1
             if self.bot1.name == 'Human':
-                winner = 'You win this round!' if outcome == 'bot1' else 'Master wins this round' 
+                winner = 'You win this round!' if outcome == 'bot1' else 'Master wins this round'
                 print '\n'
                 self.printRound(play_1, play_2)
                 print '\n'
                 print '%-22s --- Overall Score: You %i - %i Master' % \
                             (winner, self.score['bot1'], self.score['bot2'])
-        
+
         print 'Done!\n'
 
     def singleGame(self):
@@ -229,4 +232,3 @@ class SimulationAgainstMaster():
         string += '\t\t%s: \t%s\n' % (self.bot1.name, self.score['bot1'])
         string += '\t\t%s: \t%s\n' % (self.bot2.name, self.score['bot2'])
         return string
-

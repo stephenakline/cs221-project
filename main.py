@@ -9,7 +9,6 @@ TODO: human can play a bot
 '''
 
 BOTS = {}
-BOTS['bot-baseline'] = rpsBots.Baseline()
 
 def addPlayers():
     detailFile = open('opponents/details.txt', 'r')
@@ -17,9 +16,12 @@ def addPlayers():
     first, last = detailFile.readline().strip().split()
     for i in range(int(first), int(last) + 1):
         BOTS['person-%s' % i] = rpsBots.Bot('person-%s' % i)
+    BOTS['baseline'] = rpsBots.Baseline()
+    BOTS['botV2'] = rpsBots.BotV2()
     BOTS['master'] = rpsBots.Master()
     BOTS['human']  = rpsBots.Human()
     detailFile.close()
+
 # REPL and main entry point
 def repl(command=None):
     '''REPL: read, evaluate, print, loop'''
@@ -44,9 +46,7 @@ def repl(command=None):
             print ''
             print 'Commands:'
             print '\n'.join(a + '\t\t\t' + b for a, b in [
-                ('bot-baseline', 'Bot who only plays the uniform frequencies'),
                 ('peroson-[#]', 'Play Person-[#]. Can choose from [X] to [Y]'),
-                ('sim [bot1] [bot2] [rounds]', 'Simulate two bots playing'),
                 ('sim [bot1] master [rounds]', 'Simulate bot1 playing against master'),
                 ('single [bot1] [bot2]', 'Simulate 1 round between two bots'),
                 ('oracle [bot1] [rounds]', 'Oracle plays against the given bot'),
@@ -67,12 +67,12 @@ def repl(command=None):
                 game.singleGame()
 
         elif cmd == 'sim':
-            if len(line.split()) != 3:
+            if len(line.split()) != 4:
                 print 'Need the following arguments:'
-                print '\tUsage: simulate [bot1] [bot2] [# rounds]'
+                print '\tUsage: simulate [bot1] [bot2] [rounds] [games]'
                 print ''
             else:
-                name1, name2, rounds = line.split()
+                name1, name2, rounds, games = line.split()
                 bot1 = BOTS[name1]
                 bot2 = BOTS[name2]
                 if name2 == 'master':
@@ -80,9 +80,10 @@ def repl(command=None):
                     game = simulation.SimulationAgainstMaster(bot1, bot2)
                 else:
                     game = simulation.Simulation(bot1, bot2)
-                
-                game.simulate(int(rounds))
-                print(game)
+
+                for _ in range(int(games)):
+                    game.simulate(int(rounds))
+                    print(game)
 
         elif cmd == 'oracle':
             if len(line.split()) != 2:

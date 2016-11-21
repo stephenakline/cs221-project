@@ -45,6 +45,37 @@ class Bot():
                 string += i + ' '
         return string
 
+class BotV2():
+    def __init__(self):
+        ''' initialize BotV2 '''
+        self.name = 'BotV2'
+        self.counts = {'rock': 10000, 'paper': 10000, 'scissor': 10000}
+        self.delta = 1
+
+    def incorporatePlay(self, play, outcome):
+        win = 1 if outcome == 'bot1' else -1
+        for i in self.counts:
+            if i == play:
+                self.counts[play] += (win * self.delta)
+            else:
+                self.counts[play] -= (win * self.delta)
+
+    def playTurn(self):
+        probs = [float(i) / sum(self.counts.values()) for i in self.counts.values()]
+        choice = numpy.random.choice(numpy.arange(1, 4), p = probs)
+        return self.counts.keys()[choice - 1]
+
+    def playTie(self):
+        return self.playTurn()
+
+    def __repr__(self):
+        ''' overloading of print method '''
+        string = 'BotV2 plays the following way:\n'
+        string += '- the following frequencies:\n'
+        for i in self.counts:
+            string += '\t%s: %.2f\n' % (i, self.counts[i])
+        return string
+
 class Baseline():
     def __init__(self):
         ''' initialize Baseline Bot '''
