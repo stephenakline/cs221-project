@@ -67,9 +67,9 @@ def repl(command=None):
                 game.singleGame()
 
         elif cmd == 'sim':
-            if len(line.split()) != 4:
+            if len(line.split()) != 3:
                 print 'Need the following arguments:'
-                print '\tUsage: simulate [bot1] [bot2] [rounds] [games]'
+                print '\tUsage: simulate [bot1] [bot2] [rounds]'
                 print ''
             else:
                 name1, name2, rounds, games = line.split()
@@ -80,10 +80,8 @@ def repl(command=None):
                     game = simulation.SimulationAgainstMaster(bot1, bot2)
                 else:
                     game = simulation.Simulation(bot1, bot2)
-
-                for _ in range(int(games)):
-                    game.simulate(int(rounds))
-                    print(game)
+                game.simulate(int(rounds))
+                print(game)
 
         elif cmd == 'oracle':
             if len(line.split()) != 2:
