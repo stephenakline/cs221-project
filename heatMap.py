@@ -16,7 +16,7 @@ for line in f:
 numMemory = list(set([i[0] for i in results.keys()]))
 numMemory.sort()
 numPattern = list(set([i[1] for i in results.keys()]))
-numPattern.sort()
+numPattern.sort(reverse=True)
 
 data = {}
 for j in numMemory:
