@@ -72,7 +72,7 @@ def repl(command=None):
                 print '\tUsage: simulate [bot1] [bot2] [rounds]'
                 print ''
             else:
-                name1, name2, rounds, games = line.split()
+                name1, name2, rounds = line.split()
                 bot1 = BOTS[name1]
                 bot2 = BOTS[name2]
                 if name2 == 'master':
