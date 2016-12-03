@@ -66,7 +66,6 @@ class BotV2():
         newTotal = sum(self.counts.values())
         for i in self.counts:
             self.counts[i] = float(oldTotal * self.counts[i]) / float(newTotal)
-        print self.counts, sum(self.counts.values())
 
     def playTurn(self):
         probs = [float(i) / sum(self.counts.values()) for i in self.counts.values()]
