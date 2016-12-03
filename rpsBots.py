@@ -49,8 +49,11 @@ class BotV2():
     def __init__(self):
         ''' initialize BotV2 '''
         self.name = 'BotV2'
-        self.counts = {'rock': 10000, 'paper': 10000, 'scissor': 10000}
+        self.counts = {'rock': 100, 'paper': 100, 'scissor': 100}
         self.delta = 1
+
+    def resetProb(self):
+        self.counts = {'rock': 100, 'paper': 100, 'scissor': 100}
 
     def incorporatePlay(self, play, outcome):
         win = 1 if outcome == 'bot1' else -1

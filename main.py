@@ -67,20 +67,20 @@ def repl(command=None):
                 game.singleGame()
 
         elif cmd == 'sim':
-            if len(line.split()) != 3:
+            if len(line.split()) != 4:
                 print 'Need the following arguments:'
-                print '\tUsage: simulate [bot1] [bot2] [rounds]'
+                print '\tUsage: simulate [bot1] [bot2] [rounds] [games]'
                 print ''
             else:
-                name1, name2, rounds = line.split()
+                name1, name2, rounds, games = line.split()
                 bot1 = BOTS[name1]
                 bot2 = BOTS[name2]
                 if name2 == 'master':
-                    print 'Game against master!!'
+                    print 'Game against master!!\n'
                     game = simulation.SimulationAgainstMaster(bot1, bot2)
                 else:
                     game = simulation.Simulation(bot1, bot2)
-                game.simulate(int(rounds))
+                game.simulate(int(rounds),int(games))
                 print(game)
 
         elif cmd == 'oracle':
@@ -102,6 +102,6 @@ def repl(command=None):
         print ''
 
 if __name__ == '__main__':
-    print '\n\tWelcome to HELL - Prepare to lose a game of Rock, Paper, Scissor to R2P5!\n'
+    print '\n\tWelcome to our CS 221 Final Project!  Are you prepared to play Rock, Paper, Scissors against R2P5?\n'
     addPlayers()
     repl()

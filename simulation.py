@@ -60,6 +60,7 @@ class SimulationAgainstMaster():
         self.bot2 = bot2
         self.score = {'bot1': 0, 'bot2': 0, 'tie': 0}
         self.results = []
+        self.simulationResults = []
 
     def reset(self):
         self.score = {'bot1': 0, 'bot2': 0, 'tie': 0}
@@ -172,43 +173,53 @@ class SimulationAgainstMaster():
             print '     -- --               \ _ _ _ /       '
             print '    Scissor               Rock   '
 
-    def simulate(self, rounds=1000):
+    def simulate(self, rounds=1000, games = 1):
         self.reset() # reset the scores for new game
 
         # rounds = 1000 if rounds == None else rounds
-        sys.stdout.write('\tStarting the %s-round simulation....' % rounds)
+        sys.stdout.write('\tStarting the %s-round simulation of %s games....\n' % (rounds,games))
 
         sys.stdout.flush()
 
-        for _ in range(rounds):
-            play_1 = self.bot1.playTurn()
-            play_2 = self.bot2.playTurn()
-            self.bot2.incorporatePlay(play_1)
-            outcome = util.CHECK_WINNER[(play_1, play_2)]
-
-            while outcome == 'tie':
-                if self.bot1.name == 'Human':
-                    self.printRound(play_1, play_2)
-                    print '\n'
-                    print 'It\'s a tie'
-                play_1 = self.bot1.playTie()
-                play_2 = self.bot2.playTie()
+        for _ in range(games):
+            if self.bot1.name != 'Human':
+                self.bot1.resetProb()
+            self.reset()
+            for _ in range(rounds):
+                play_1 = self.bot1.playTurn()
+                play_2 = self.bot2.playTurn()
                 self.bot2.incorporatePlay(play_1)
                 outcome = util.CHECK_WINNER[(play_1, play_2)]
 
-            if self.bot1.name == 'BotV2':
-                self.bot1.incorporatePlay(play_1, outcome)
+                while outcome == 'tie':
+                    if self.bot1.name == 'Human':
+                        self.printRound(play_1, play_2)
+                        print '\n'
+                        print 'It\'s a tie'
+                    play_1 = self.bot1.playTie()
+                    play_2 = self.bot2.playTie()
+                    self.bot2.incorporatePlay(play_1)
+                    outcome = util.CHECK_WINNER[(play_1, play_2)]
 
-            self.results.append(outcome)
-            self.score[outcome] += 1
-            if self.bot1.name == 'Human':
-                winner = 'You win this round!' if outcome == 'bot1' else 'Master wins this round'
-                print '\n'
-                self.printRound(play_1, play_2)
-                print '\n'
-                print '%-22s --- Overall Score: You %i - %i Master' % \
-                            (winner, self.score['bot1'], self.score['bot2'])
+                if self.bot1.name == 'BotV2':
+                    self.bot1.incorporatePlay(play_1, outcome)
 
+                self.results.append(outcome)
+                self.score[outcome] += 1
+                if self.bot1.name == 'Human':
+                    winner = 'You win this round!' if outcome == 'bot1' else 'Master wins this round'
+                    print '\n'
+                    self.printRound(play_1, play_2)
+                    print '\n'
+                    print '%-22s --- Overall Score: You %i - %i Master' % \
+                                (winner, self.score['bot1'], self.score['bot2'])
+
+            percentageWon = float(self.score['bot2'])/rounds 
+            self.simulationResults.append(percentageWon)
+        
+        timesWon = sum(i > 0.5 for i in self.simulationResults)
+        
+        print '\tThe master won %s of %s simulated games\n' % (timesWon,games)
         print 'Done!\n'
 
     def singleGame(self):
