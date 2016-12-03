@@ -1,6 +1,7 @@
 import sys
 import rpsBots
 import simulation
+import itertools
 
 '''
 TODO: human can play a bot
@@ -67,21 +68,29 @@ def repl(command=None):
                 game.singleGame()
 
         elif cmd == 'sim':
-            if len(line.split()) != 4:
+            if len(line.split()) != 6:
                 print 'Need the following arguments:'
                 print '\tUsage: simulate [bot1] [bot2] [rounds] [games]'
                 print ''
             else:
-                name1, name2, rounds, games = line.split()
+                name1, name2, rounds, games, n, p = line.split()
                 bot1 = BOTS[name1]
                 bot2 = BOTS[name2]
                 if name2 == 'master':
+                    bot2 = rpsBots.Master(n,p)
                     print 'Game against master!!\n'
                     game = simulation.SimulationAgainstMaster(bot1, bot2)
                 else:
                     game = simulation.Simulation(bot1, bot2)
                 game.simulate(int(rounds),int(games))
                 print(game)
+
+            results = [rounds, games, n, p, game.simulationResults]
+            resultsString = ' '.join(str(x) for x in results).replace('[','').replace(']','').replace(',','')
+            f = open("simResults.txt","a") #opens file with name of "test.txt"
+            f.write(resultsString)
+            f.write("\n")
+            f.close()
 
         elif cmd == 'oracle':
             if len(line.split()) != 2:
@@ -101,7 +110,29 @@ def repl(command=None):
 
         print ''
 
+def writeResults ():
+    nMin = 5; nMax = 105; nStep = 10
+    pMin = 5; pMax = 17; pStep = 2
+    n = range(nMin, nMax, nStep)
+    p = range(pMin, pMax, pStep)
+    c = list(itertools.product(n, p))
+
+    for i in c: 
+        print i 
+        bot1 = rpsBots.BotV2()
+        bot2 = rpsBots.Master(i[0], i[1])
+        game = simulation.SimulationAgainstMaster(bot1, bot2)
+        game.simulate(int(100),int(500))
+
+        results = [100, 500, i[0], i[1], game.simulationResults]
+        resultsString = ' '.join(str(x) for x in results).replace('[','').replace(']','').replace(',','')
+        f = open("simResults.txt","a") #opens file with name of "test.txt"
+        f.write(resultsString)
+        f.write("\n")
+        f.close()
+
 if __name__ == '__main__':
     print '\n\tWelcome to our CS 221 Final Project!  Are you prepared to play Rock, Paper, Scissors against R2P5?\n'
     addPlayers()
-    repl()
+    #repl()
+    writeResults()

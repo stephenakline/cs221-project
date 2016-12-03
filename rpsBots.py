@@ -49,11 +49,11 @@ class BotV2():
     def __init__(self):
         ''' initialize BotV2 '''
         self.name = 'BotV2'
-        self.counts = {'rock': 100, 'paper': 100, 'scissor': 100}
+        self.counts = {'rock': 50, 'paper': 50, 'scissor': 50}
         self.delta = 1
 
     def resetProb(self):
-        self.counts = {'rock': 100, 'paper': 100, 'scissor': 100}
+        self.counts = {'rock': 50, 'paper': 50, 'scissor': 50}
 
     def incorporatePlay(self, play, outcome):
         win = 1 if outcome == 'bot1' else -1
@@ -156,14 +156,14 @@ class Human():
         return self.playTurn()
 
 class Master():
-    def __init__(self):
+    def __init__(self, n = 10, p = 4):
         ''' initialize Master Bot '''
         self.history = []
         self.name = 'Master R2P5'
-        self.memoryLength = 10
+        self.memoryLength = int(n)
         self.totalNumRounds = 1000
         self.state = ([],0,{'rock':0, 'paper':0, 'scissor': 0})
-        self.patternLength = 4
+        self.patternLength = int(p)
 
     def isEnd(self, state):
         return state[1] == self.totalNumRounds
