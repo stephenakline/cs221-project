@@ -183,6 +183,7 @@ class SimulationAgainstMaster():
 
         for _ in range(games):
             if self.bot1.name != 'Human':
+                # print self.bot1.counts
                 self.bot1.resetProb()
             self.reset()
             for _ in range(rounds):
@@ -214,11 +215,11 @@ class SimulationAgainstMaster():
                     print '%-22s --- Overall Score: You %i - %i Master' % \
                                 (winner, self.score['bot1'], self.score['bot2'])
 
-            percentageWon = float(self.score['bot2'])/rounds 
+            percentageWon = float(self.score['bot2'])/rounds
             self.simulationResults.append(percentageWon)
-        
+
         timesWon = sum(i > 0.5 for i in self.simulationResults)
-        
+
         print '\tThe master won %s of %s simulated games\n' % (timesWon,games)
         print 'Done!\n'
 

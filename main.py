@@ -89,7 +89,7 @@ def repl(command=None):
             resultsString = ' '.join(str(x) for x in results).replace('[','').replace(']','').replace(',','')
             f = open("simResults.txt","a") #opens file with name of "test.txt"
             f.write(resultsString)
-            f.write("\n")
+            f.write('\n')
             f.close()
 
         elif cmd == 'oracle':
@@ -111,18 +111,18 @@ def repl(command=None):
         print ''
 
 def writeResults ():
-    nMin = 5; nMax = 105; nStep = 10
-    pMin = 5; pMax = 17; pStep = 2
+    nMin = 5; nMax = 26; nStep = 1
+    pMin = 3; pMax = 16; pStep = 1
     n = range(nMin, nMax, nStep)
     p = range(pMin, pMax, pStep)
     c = list(itertools.product(n, p))
 
-    for i in c: 
-        print i 
+    for i in c:
+        print i
         bot1 = rpsBots.BotV2()
         bot2 = rpsBots.Master(i[0], i[1])
         game = simulation.SimulationAgainstMaster(bot1, bot2)
-        game.simulate(int(100),int(500))
+        game.simulate(100,500)
 
         results = [100, 500, i[0], i[1], game.simulationResults]
         resultsString = ' '.join(str(x) for x in results).replace('[','').replace(']','').replace(',','')

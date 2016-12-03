@@ -49,19 +49,19 @@ class BotV2():
     def __init__(self):
         ''' initialize BotV2 '''
         self.name = 'BotV2'
-        self.counts = {'rock': 50, 'paper': 50, 'scissor': 50}
+        self.counts = {'rock': 100, 'paper': 100, 'scissor': 100}
         self.delta = 1
 
     def resetProb(self):
-        self.counts = {'rock': 50, 'paper': 50, 'scissor': 50}
+        self.counts = {'rock': 100, 'paper': 100, 'scissor': 100}
 
     def incorporatePlay(self, play, outcome):
         win = 1 if outcome == 'bot1' else -1
+        oldTotal = sum(self.counts.values())
+        self.counts[play] += (win * self.delta)
+        newTotal = sum(self.counts.values())
         for i in self.counts:
-            if i == play:
-                self.counts[play] += (win * self.delta)
-            else:
-                self.counts[play] -= (win * self.delta)
+            self.counts[i] = self.counts[play] / float(newTotal) * oldTotal
 
     def playTurn(self):
         probs = [float(i) / sum(self.counts.values()) for i in self.counts.values()]

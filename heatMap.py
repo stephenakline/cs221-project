@@ -5,6 +5,11 @@ import matplotlib.pyplot as plt
 
 # https://web.archive.org/web/20150404034126/http://stanford.edu/~mwaskom/software/seaborn/tutorial/dataset_exploration.html
 # http://stackoverflow.com/questions/33805689/converting-dictionary-to-dataframe-with-tuple-as-key
+# http://seaborn.pydata.org/examples/many_pairwise_correlations.html
+
+'''
+dont show when p >= n
+'''
 
 results = {}
 timesWon = {}
@@ -35,13 +40,20 @@ for j in numMemory:
 df = pd.DataFrame(percentData)
 df = df.set_index([numPattern])
 
+mask = np.zeros_like(df, dtype=np.bool)
+for pattern, row in df.iterrows():
+    for memory in row.index:
+        if pattern >= memory:
+            rowindex = numPattern.index(pattern)
+            colindex = numMemory.index(memory)
+            mask[rowindex, colindex] = True
+
 figure = plt.gcf() # get current figure
 figure.set_size_inches(11, 8.5)
 
 # sns.heatmap(df, center=0.5, annot=True, vmin=0, vmax=1.0, \
-sns.heatmap(df, center=0.5, annot=True, \
-    linecolor="grey", linewidths=1);
-plt.title('Percentage of %s Rounds Won Across %s Games' % (rounds, sims), fontsize=18)
+sns.heatmap(df, center=0.5, annot=True, mask=mask)
+plt.title('Average of %s Rounds Won Across %s Games' % (rounds, sims), fontsize=18)
 plt.xlabel('Length of Short Term Memory (n)', fontsize=14)
 plt.ylabel('Length of Max Pattern (p_init)', fontsize=14)
 plt.savefig('percent-rounds-won.png')
@@ -53,9 +65,8 @@ df = df.set_index([numPattern])
 
 figure = plt.gcf() # get current figure
 figure.set_size_inches(11, 8.5)
-sns.heatmap(df, center=0.5, annot=True, vmin=0, vmax=1.0, \
-# sns.heatmap(df, center=0.5, annot=True, \
-    cmap="Greys", linecolor="grey", linewidths=1);
+# sns.heatmap(df, center=0.5, annot=True, vmin=0, vmax=1.0, \
+sns.heatmap(df, center=0.5, annot=True, vmin=0.2, vmax=0.8, cmap="Greys", mask=mask)
 plt.title('Percentage of %s Games Won' % sims, fontsize=18)
 plt.xlabel('Length of Short Term Memory (n)', fontsize=14)
 plt.ylabel('Length of Max Pattern (p_init)', fontsize=14)
