@@ -58,7 +58,7 @@ class BotV2():
     def incorporatePlay(self, play, outcome):
         oldTotal = sum(self.counts.values())
         if outcome == 'bot1':
-            self.counts[play] += (win * self.delta)
+            self.counts[play] += (self.delta)
         else:
             for i in self.counts:
                 if i != play:
