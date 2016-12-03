@@ -50,7 +50,7 @@ class BotV2():
         ''' initialize BotV2 '''
         self.name = 'BotV2'
         self.counts = {'rock': 100, 'paper': 100, 'scissor': 100}
-        self.delta = 1
+        self.delta = 5
 
     def resetProb(self):
         self.counts = {'rock': 100, 'paper': 100, 'scissor': 100}
@@ -61,7 +61,8 @@ class BotV2():
         self.counts[play] += (win * self.delta)
         newTotal = sum(self.counts.values())
         for i in self.counts:
-            self.counts[i] = self.counts[play] / float(newTotal) * oldTotal
+            self.counts[i] = float(oldTotal * self.counts[i]) / float(newTotal)
+        print self.counts, sum(self.counts.values())
 
     def playTurn(self):
         probs = [float(i) / sum(self.counts.values()) for i in self.counts.values()]
