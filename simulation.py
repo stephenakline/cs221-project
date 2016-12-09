@@ -186,7 +186,7 @@ class SimulationAgainstMaster():
             sys.stdout.write('>> ')
             humanName = sys.stdin.readline().strip()
             now = datetime.datetime.now()
-            f = open('record/record-of-%s-%s%s%s.txt' % (humanName, now.year, now.month, now.day), 'a') #opens file with name of "test.txt"
+            f = open('human-testing/record-of-%s-%s%s%s.txt' % (humanName, now.year, now.month, now.day), 'a') #opens file with name of "test.txt"
             description = 'human: %s\nmaster: %s\n[human play] [master play] [winner] [human score]-[master score]\n' % (humanName, self.bot2.name)
             f.write(description)
 
