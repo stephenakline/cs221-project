@@ -1,0 +1,28 @@
+human: stephen
+master: Master R2P5
+[human play] [master play] [winner] [human score]-[master score]
+rock paper bot2 0-1
+scissor rock bot2 0-2
+paper rock bot1 1-2
+paper rock bot1 2-2
+scissor rock bot2 2-3
+rock paper bot2 2-4
+paper rock bot1 3-4
+paper rock bot1 4-4
+rock scissor bot1 5-4
+scissor rock bot2 5-5
+rock paper bot2 5-6
+scissor paper bot1 6-6
+scissor paper bot1 7-6
+rock paper bot2 7-7
+paper scissor bot2 7-8
+rock scissor bot1 8-8
+scissor rock bot2 8-9
+scissor paper bot1 9-9
+rock paper bot2 9-10
+paper scissor bot2 9-11
+paper scissor bot2 9-12
+rock paper bot2 9-13
+scissor rock bot2 9-14
+rock scissor bot1 10-14
+scissor rock bot2 10-15
