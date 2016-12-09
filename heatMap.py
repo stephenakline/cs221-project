@@ -13,7 +13,7 @@ dont show when p >= n
 
 results = {}
 timesWon = {}
-f = open('simResults.txt', 'r')
+f = open('simResults_5.txt', 'r')
 for line in f:
     t = map(float, line.split())
     if len(t) == 0: continue
@@ -51,12 +51,12 @@ for pattern, row in df.iterrows():
 figure = plt.gcf() # get current figure
 figure.set_size_inches(11, 8.5)
 
-# sns.heatmap(df, center=0.5, annot=True, vmin=0, vmax=1.0, \
-sns.heatmap(df, center=0.5, annot=True, mask=mask)
-plt.title('Average of %s Rounds Won Across %s Games' % (rounds, sims), fontsize=18)
+sns.heatmap(df, cmap='RdBu_r', annot=True, mask=mask)
+# sns.heatmap(df, center=0.5, mask=mask)
+plt.title('Average of %s Rounds Won Across %s Games - Opponent with delta = 5' % (rounds, sims), fontsize=18)
 plt.xlabel('Length of Short Term Memory (n)', fontsize=14)
 plt.ylabel('Length of Max Pattern (p_init)', fontsize=14)
-plt.savefig('percent-rounds-won.png')
+plt.savefig('percent-rounds-won-5.png')
 
 plt.clf()
 
@@ -65,9 +65,9 @@ df = df.set_index([numPattern])
 
 figure = plt.gcf() # get current figure
 figure.set_size_inches(11, 8.5)
-# sns.heatmap(df, center=0.5, annot=True, vmin=0, vmax=1.0, \
-sns.heatmap(df, center=0.5, annot=True, vmin=0.2, vmax=0.8, cmap="Greys", mask=mask)
-plt.title('Percentage of %s Games Won' % sims, fontsize=18)
+sns.heatmap(df, cmap='RdBu_r', annot=True,  mask=mask)
+# sns.heatmap(df, center=0.5, vmin=0.2, vmax=0.8, mask=mask)
+plt.title('Percentage of %s Games Won - Opponent with delta = 5' % sims, fontsize=18)
 plt.xlabel('Length of Short Term Memory (n)', fontsize=14)
 plt.ylabel('Length of Max Pattern (p_init)', fontsize=14)
-plt.savefig('percent-games-won.png')
+plt.savefig('percent-games-won-5.png')
