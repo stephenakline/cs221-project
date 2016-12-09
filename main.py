@@ -3,25 +3,16 @@ import rpsBots
 import simulation
 import itertools
 
-'''
-TODO: human can play a bot
-      human can enter probabilities for their own bot
-      add other bots
-'''
-
 BOTS = {}
-
-def addPlayers():
-    detailFile = open('opponents/details.txt', 'r')
-    lenghts = detailFile.readline().strip().split()
-    first, last = detailFile.readline().strip().split()
-    for i in range(int(first), int(last) + 1):
-        BOTS['person-%s' % i] = rpsBots.Bot('person-%s' % i)
-    BOTS['baseline'] = rpsBots.Baseline()
-    BOTS['botV2'] = rpsBots.BotV2()
-    BOTS['master'] = rpsBots.Master()
-    BOTS['human']  = rpsBots.Human()
-    detailFile.close()
+BOTS['baseline'] = rpsBots.Baseline()
+BOTS['master'] = rpsBots.Master()
+BOTS['human']  = rpsBots.Human()
+BOTS['group'] = rpsBots.MasterEnsemble()
+BOTS['group'].addMaster(rpsBots.Master())
+BOTS['group'].addMaster(rpsBots.Master(16, 9))
+BOTS['group'].addMaster(rpsBots.Master(23, 5))
+BOTS['group'].addMaster(rpsBots.Master(23, 14))
+BOTS['group'].addMaster(rpsBots.Master(40, 30))
 
 # REPL and main entry point
 def repl(command=None):
@@ -47,63 +38,51 @@ def repl(command=None):
             print ''
             print 'Commands:'
             print '\n'.join(a + '\t\t\t' + b for a, b in [
-                ('peroson-[#]', 'Play Person-[#]. Can choose from [X] to [Y]'),
-                ('sim [bot1] master [rounds]', 'Simulate bot1 playing against master'),
-                ('single [bot1] [bot2]', 'Simulate 1 round between two bots'),
-                ('oracle [bot1] [rounds]', 'Oracle plays against the given bot'),
+                ('sim [bot1] master [rounds] [games]', 'Simulate bot1 playing against master'),
+                ('record [bot1] master [rounds]', 'Records data of human vs. master for [x] rounds'),
             ])
             print ''
             print 'Enter empty line to quit'
 
-        elif cmd == 'single':
-            if len(line.split()) != 2:
+        elif cmd == 'sim': # sim human master 1000 1
+            if len(line.split()) != 4:
                 print 'Need the following arguments:'
-                print '\tUsage: single [bot1] [bot2]'
+                print '\tUsage: sim [bot1] master [rounds] [games]'
                 print ''
             else:
-                name1, name2 = line.split()
+                name1, name2, rounds, games= line.split()
                 bot1 = BOTS[name1]
                 bot2 = BOTS[name2]
-                game = simulation.Simulation(bot1, bot2)
-                game.singleGame()
-
-        elif cmd == 'sim':
-            if len(line.split()) != 6:
-                print 'Need the following arguments:'
-                print '\tUsage: simulate [bot1] [bot2] [rounds] [games]'
-                print ''
-            else:
-                name1, name2, rounds, games, n, p = line.split()
-                bot1 = BOTS[name1]
-                bot2 = BOTS[name2]
+                if name2 == 'group':
+                    bot2 = BOTS['group']
+                    print 'Game against group of Masters!!\n'
+                    game = simulation.SimulationAgainstMaster(bot1, bot2)
                 if name2 == 'master':
-                    bot2 = rpsBots.Master(n,p)
-                    print 'Game against master!!\n'
+                    bot2 = rpsBots.Master(16, 3)
+                    print 'Game against the Master!!\n'
                     game = simulation.SimulationAgainstMaster(bot1, bot2)
                 else:
                     game = simulation.Simulation(bot1, bot2)
+                    print rounds, gamess
                 game.simulate(int(rounds),int(games))
                 print(game)
 
-            results = [rounds, games, n, p, game.simulationResults]
-            resultsString = ' '.join(str(x) for x in results).replace('[','').replace(']','').replace(',','')
-            f = open("simResults.txt","a") #opens file with name of "test.txt"
-            f.write(resultsString)
-            f.write('\n')
-            f.close()
-
-        elif cmd == 'oracle':
-            if len(line.split()) != 2:
+        elif cmd == 'record':
+            if len(line.split()) != 3:
                 print 'Need the following arguments:'
-                print '\tUsage: oracle [bot1] [# rounds]'
+                print '\tUsage: record human master [rounds]'
                 print ''
             else:
-                name1, rounds = line.split()
-                bot1 = BOTS[name1]
-                bot2 = rpsBots.Oracle(bot1)
-                game = simulation.Simulation(bot1, bot2)
-                game.simulate(int(rounds))
-                print(game)
+                _, name2, rounds = line.split()
+                bot1 = rpsBots.Human()
+                if name2 == 'master':
+                    print 'Game against the Master!!\n'
+                    bot2 = rpsBots.Master(16, 3)
+                elif name2 == 'group':
+                    print 'Game against group of Masters!!\n'
+                    bot2 = BOTS['group']
+                game = simulation.SimulationAgainstMaster(bot1, bot2, True)
+                game.simulate(int(rounds),1)
 
         else:
             print 'Unrecognized command:', cmd
@@ -118,7 +97,7 @@ def writeResults ():
     c = list(itertools.product(n, p))
 
     for i in c:
-        print i
+        # print i
         bot1 = rpsBots.BotV2()
         bot2 = rpsBots.Master(i[0], i[1])
         game = simulation.SimulationAgainstMaster(bot1, bot2)
@@ -133,6 +112,5 @@ def writeResults ():
 
 if __name__ == '__main__':
     print '\n\tWelcome to our CS 221 Final Project!  Are you prepared to play Rock, Paper, Scissors against R2P5?\n'
-    addPlayers()
-    #repl()
-    writeResults()
+    repl()
+    # writeResults()

@@ -1,5 +1,6 @@
 import sys
 import util
+import datetime
 import rpsBots
 
 class Simulation():
@@ -52,15 +53,15 @@ class Simulation():
         string += '\t\t%s: \t%s\n' % (self.bot2.name, self.score['bot2'])
         return string
 
-
 class SimulationAgainstMaster():
-    def __init__(self, bot1, bot2):
+    def __init__(self, bot1, bot2, record=False):
         """ ----------------------- """
         self.bot1 = bot1
         self.bot2 = bot2
         self.score = {'bot1': 0, 'bot2': 0, 'tie': 0}
         self.results = []
         self.simulationResults = []
+        self.record = record
 
     def reset(self):
         self.score = {'bot1': 0, 'bot2': 0, 'tie': 0}
@@ -177,9 +178,17 @@ class SimulationAgainstMaster():
         self.reset() # reset the scores for new game
 
         # rounds = 1000 if rounds == None else rounds
-        sys.stdout.write('\tStarting the %s-round simulation of %s games....\n' % (rounds,games))
-
+        sys.stdout.write('Starting the %s-round simulation of %s games....\n' % (rounds,games))
         sys.stdout.flush()
+
+        if self.record:
+            print '\nFirst, please enter your name:'
+            sys.stdout.write('>> ')
+            humanName = sys.stdin.readline().strip()
+            now = datetime.datetime.now()
+            f = open('record/record-of-%s-%s%s%s.txt' % (humanName, now.year, now.month, now.day), 'a') #opens file with name of "test.txt"
+            description = 'human: %s\nmaster: %s\n[human play] [master play] [winner] [human score]-[master score]\n' % (humanName, self.bot2.name)
+            f.write(description)
 
         for _ in range(games):
             if self.bot1.name != 'Human':
@@ -215,10 +224,17 @@ class SimulationAgainstMaster():
                     print '%-22s --- Overall Score: You %i - %i Master' % \
                                 (winner, self.score['bot1'], self.score['bot2'])
 
+                if self.record:
+                    current_result = '%s %s %s %s-%s\n' % (play_1, play_2, outcome, self.score['bot1'], self.score['bot2'])
+                    f.write(current_result)
+
             percentageWon = float(self.score['bot2'])/rounds
             self.simulationResults.append(percentageWon)
 
         timesWon = sum(i > 0.5 for i in self.simulationResults)
+
+        if self.record:
+            f.close()
 
         print '\tThe master won %s of %s simulated games\n' % (timesWon,games)
         print 'Done!\n'

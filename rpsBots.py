@@ -5,6 +5,7 @@ import util
 import operator
 import sys
 
+''' TO DELETE'''
 class Bot():
     def __init__(self, name):
         ''' initialize RPS Bot that is based only on order '''
@@ -108,6 +109,7 @@ class Baseline():
             string += '\t%s: %.2f\n' % (i, self.probs[i])
         return string
 
+''' TO DELETE'''
 class Oracle():
     def __init__(self, opponent):
         ''' initialize Oracle Bot '''
@@ -159,8 +161,36 @@ class Human():
     def playTie(self):
         return self.playTurn()
 
+class MasterEnsemble():
+    def __init__(self):
+        self.masters = []
+        self.name = 'Group Master'
+        self.choices = {'rock': 0, 'paper': 0, 'scissor': 0}
+
+    def addMaster(self, m):
+        self.masters.append(m)
+
+    def reset(self):
+        self.choices = {'rock': 0, 'paper': 0, 'scissor': 0}
+
+    def incorporatePlay(self, play):
+        for i in self.masters:
+            i.incorporatePlay(play)
+
+    def playTurn(self):
+        for i in self.masters:
+            c = i.playTurn()
+            self.choices[c] += 1
+        majority = max(self.choices, key=self.choices.get)
+        # print majority, ': ', self.choices
+        self.reset()
+        return majority
+
+    def playTie(self):
+        return self.playTurn()
+
 class Master():
-    def __init__(self, n = 10, p = 4):
+    def __init__(self, n = 16, p = 3):
         ''' initialize Master Bot '''
         self.history = []
         self.name = 'Master R2P5'
@@ -224,7 +254,6 @@ class Master():
         # print '\nMaster is thinking'
         p_init = self.patternLength
         return play(p_init)
-
 
     def playTie(self):
         return self.playTurn()
