@@ -1,0 +1,23 @@
+human: nick
+master: Master R2P5
+[human play] [master play] [winner] [human score]-[master score]
+rock paper bot2 0-1
+paper scissor bot2 0-2
+scissor rock bot2 0-3
+rock paper bot2 0-4
+paper scissor bot2 0-5
+scissor rock bot2 0-6
+rock paper bot2 0-7
+paper scissor bot2 0-8
+scissor rock bot2 0-9
+rock paper bot2 0-10
+scissor rock bot2 0-11
+paper scissor bot2 0-12
+rock paper bot2 0-13
+paper rock bot1 1-13
+paper rock bot1 2-13
+paper scissor bot2 2-14
+paper scissor bot2 2-15
+paper scissor bot2 2-16
+paper scissor bot2 2-17
+paper scissor bot2 2-18

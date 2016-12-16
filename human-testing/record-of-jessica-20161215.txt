@@ -1,0 +1,23 @@
+human: jessica
+master: Master R2P5
+[human play] [master play] [winner] [human score]-[master score]
+rock scissor bot1 1-0
+paper scissor bot2 1-1
+scissor rock bot2 1-2
+paper rock bot1 2-2
+scissor rock bot2 2-3
+rock scissor bot1 3-3
+paper scissor bot2 3-4
+paper scissor bot2 3-5
+paper rock bot1 4-5
+rock scissor bot1 5-5
+scissor rock bot2 5-6
+paper scissor bot2 5-7
+scissor rock bot2 5-8
+rock paper bot2 5-9
+paper scissor bot2 5-10
+rock paper bot2 5-11
+paper scissor bot2 5-12
+rock scissor bot1 6-12
+scissor rock bot2 6-13
+paper scissor bot2 6-14

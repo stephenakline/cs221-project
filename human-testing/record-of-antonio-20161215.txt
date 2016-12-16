@@ -1,0 +1,23 @@
+human: antonio
+master: Master R2P5
+[human play] [master play] [winner] [human score]-[master score]
+rock paper bot2 0-1
+rock paper bot2 0-2
+paper scissor bot2 0-3
+paper scissor bot2 0-4
+paper scissor bot2 0-5
+paper scissor bot2 0-6
+paper scissor bot2 0-7
+paper scissor bot2 0-8
+paper scissor bot2 0-9
+paper scissor bot2 0-10
+paper scissor bot2 0-11
+paper scissor bot2 0-12
+paper scissor bot2 0-13
+paper scissor bot2 0-14
+rock scissor bot1 1-14
+rock scissor bot1 2-14
+rock scissor bot1 3-14
+rock paper bot2 3-15
+scissor paper bot1 4-15
+rock scissor bot1 5-15

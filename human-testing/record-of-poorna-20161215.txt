@@ -1,0 +1,21 @@
+human: poorna
+master: Master R2P5
+[human play] [master play] [winner] [human score]-[master score]
+scissor rock bot2 0-1
+paper rock bot1 1-1
+paper rock bot1 2-1
+rock scissor bot1 3-1
+rock scissor bot1 4-1
+rock scissor bot1 5-1
+paper rock bot1 6-1
+paper scissor bot2 6-2
+rock paper bot2 6-3
+paper scissor bot2 6-4
+rock scissor bot1 7-4
+rock scissor bot1 8-4
+scissor rock bot2 8-5
+rock paper bot2 8-6
+rock scissor bot1 9-6
+paper rock bot1 10-6
+paper rock bot1 11-6
+rock paper bot2 11-7
