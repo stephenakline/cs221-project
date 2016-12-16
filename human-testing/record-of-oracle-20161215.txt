@@ -1,0 +1,10 @@
+human: oracle
+master: Master R2P5
+[human play] [master play] [winner] [human score]-[master score]
+paper scissor bot2 0-1
+paper scissor bot2 0-2
+rock scissor bot1 1-2
+rock scissor bot1 2-2
+rock scissor bot1 3-2
+scissor rock bot2 3-3
+paper scissor bot2 3-4
