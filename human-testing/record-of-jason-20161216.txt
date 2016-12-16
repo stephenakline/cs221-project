@@ -1,0 +1,21 @@
+human: jason
+master: Group Master
+[human play] [master play] [winner] [human score]-[master score]
+rock paper bot2 0-1
+rock scissor bot1 1-1
+rock scissor bot1 2-1
+paper scissor bot2 2-2
+rock paper bot2 2-3
+scissor paper bot1 3-3
+rock paper bot2 3-4
+paper scissor bot2 3-5
+rock paper bot2 3-6
+rock paper bot2 3-7
+paper scissor bot2 3-8
+paper scissor bot2 3-9
+rock paper bot2 3-10
+scissor paper bot1 4-10
+scissor paper bot1 5-10
+rock paper bot2 5-11
+scissor paper bot1 6-11
+paper rock bot1 7-11
