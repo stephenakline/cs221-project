@@ -1,0 +1,26 @@
+human: Ariel
+master: Master R2P5
+[human play] [master play] [winner] [human score]-[master score]
+rock paper bot2 0-1
+scissor paper bot1 1-1
+scissor paper bot1 2-1
+scissor rock bot2 2-2
+paper rock bot1 3-2
+paper rock bot1 4-2
+paper rock bot1 5-2
+paper scissor bot2 5-3
+rock scissor bot1 6-3
+paper rock bot1 7-3
+paper scissor bot2 7-4
+rock scissor bot1 8-4
+rock paper bot2 8-5
+rock paper bot2 8-6
+scissor paper bot1 9-6
+scissor paper bot1 10-6
+paper scissor bot2 10-7
+scissor paper bot1 11-7
+paper scissor bot2 11-8
+rock paper bot2 11-9
+rock paper bot2 11-10
+scissor rock bot2 11-11
+paper scissor bot2 11-12
